@@ -97,3 +97,29 @@ you can use this to create reusable(react-like) components
 <x-card href='/ninjas/{{ $ninja["id"] }}'>
 while $attributes will extract it all then pass it to the declaration of our component.
 
+attributes are legit attributes from html that can be passed to child components
+
+props are non-legit attributes you can pass
+
+how to pass props value to components
+
+:highlight='true'
+
+conditional props
+:highlight="$ninja['skill'] > 70">
+
+@props(['highlight' => false]) // default value
+
+<div @class(['!bg-red-300' => $highlight, "card bg-gray-300"])>
+// by default, class is "card" if highlight is true add the class.
+// note that if you want to override the styles, add an important symbol
+
+laravel serves our code but vite is the one serving the client. so you neet to add the directive in your layout.
+@vite('resources/css/app.css') <== Path to your css file.
+
+
+learned how to create a directive to convert tailwind to plain CSS
+
+.card{
+    @apply flex flex-col p-5 bg-gray-300 shadow-xl border border-gray-400;
+}
