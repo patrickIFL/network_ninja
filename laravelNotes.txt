@@ -1,0 +1,99 @@
+first install laravel then create a laravel project:
+
+laravel new ninja_network
+
+
+Started learning Laravel by installing Herd
+Herd is like laragon. A platform for creating local laravel deployments.
+learned about the different folders inside a laravel project.
+in the laravel world,
+eloquent = mongoose.
+(ORM vs ODM)
+Learned about blade. blade is used by laravel to generate views.
+
+Started learning about routes.
+As you can tell Route in larvel is similar to express.js
+exept that return is equivalent to response.
+
+<?php
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+Route::get('/', function () {
+    return Inertia::render('welcome');
+})->name('home');
+
+What is Inertia.js?
+
+Inertia.js is a bridge between modern frontend frameworks (like React, Vue, or Svelte) and backend frameworks (like Laravel, Rails, Django, etc.).
+
+It lets you build single-page apps (SPAs) — without creating a separate API or using something like Next.js or Laravel API + React app.
+
+🧠 Think of Inertia as the “glue” that connects Laravel + React like a fullstack framework, without needing REST or GraphQL.
+
+best to install these extensions:
+laravel blade
+php intellisense
+
+learned about using routes (web.php)
+Route::get('/ninjas', function () {
+    return view('ninjas.index');
+});
+clicking this link will run the route navigating to the blade folder. separated by .
+<a href="/ninjas" class="btn">Find Ninjas!</a>
+
+declaring a key-value inside the route then passing it to blade view:
+return view('ninjas.index', ["greeting" => "hello"]);
+
+accessing it inside the view using blade syntax : {{  }}
+
+learned about wildcards. Route::get('/ninjas/{id}')
+in express, its equivalent is passing a dynamic value in the route to be accessed in the link.
+
+learned about blade directives.
+in JSX its like:
+{greeting === "hello" ? 'hi' : 'goodbye'}
+in Blade its like:
+@if(true)
+<p>Hi from inside the if statement</p>
+@endif
+
+note: remember, no {{ }}
+
+Learned to run a @foreach loop to loop through each ninja.
+
+@foreach ($ninjas as $ninja)
+            <li>
+                <a href="/ninjas/{{ $ninja["id"] }}">
+                    {{ $ninja["name"] }}, {{ $ninja["skill"] }}
+                </a>
+            </li>
+        @endforeach
+
+Starter TechStack:
+MERN <- Ecommerce (Patrick's Store), ArmorOfGod
+
+Currently Studying TechStacks:
+NEXT, Tailwind, Typscript, Prisma <- OnlyHorse
+
+Laravel, React <- At Iformat, I'm doing this
+Laravel, NEXT
+
+learned about the layout.blade.php = component file
+in your view file <x-layout> {{ your contents here }} <x-layout>
+in your layout file, you do {{ $slot }}. slot will be the place where the children will be rendered.
+
+you can use this to create reusable(react-like) components
+
+<div class="card">
+    {{ $slot }}
+    {{-- <a href="{{ $attributes->get('href') }}"> --}}
+    <a {{ $attributes }} class="btn">
+        View Details
+    </a>
+</div>
+
+{{ attributes->get('href') }} will only give the href we declared in the instance of our component.
+<x-card href='/ninjas/{{ $ninja["id"] }}'>
+while $attributes will extract it all then pass it to the declaration of our component.
+
