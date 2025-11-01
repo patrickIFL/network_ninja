@@ -7,7 +7,9 @@ first install laravel then create a laravel project:
 Herd is like laragon. A platform for creating local laravel deployments.
 learned about the different folders inside a laravel project.
 in the laravel world,
+
 => eloquent = mongoose.
+
 (ORM vs ODM)
 => Learned about blade. blade is used by laravel to generate views.
 
@@ -128,7 +130,58 @@ learned that you can do components in larevel as you would with react.
 
 learned about migrations
 
-php artisan make:migration create_todos_table
+migration is a thing for SQL databases
+A migration is just a versioned record of changes you make to your database schema — the structure, not the data.
 
-npx vite --host localhost --port 5173
+Think of it like Git for your database schema.
+Every time you change a table — add a column, rename something, change data types — you create a migration file that describes that change in code.
+MongoDB is schema-less — you can just insert a new field into a document and it works:
 
+
+php artisan make:migration create_todos_table <= create the table schema 
+php artisan migrate <= create the table
+php artisan migrate:rollback <= undo last migration
+
+=> npx vite --host localhost --port 5173
+
+=> php artisan make:model Ninja -mfs
+
+1. 🪄 Model (app/Models/Ninja.php)
+Represents a single table (ninjas) in your database.
+You use it to interact with records:
+
+2. 🧱 Migration (database/migrations/...create_ninjas_table.php)
+
+Defines the schema (structure) of the ninjas table:
+
+3. 🧬 Factory (database/factories/NinjaFactory.php)
+
+Used to generate fake data — super useful for testing or seeding.
+
+eloquent is the ORM used in Laravel
+$ninjas = Ninja::all()
+$ninjas = Ninja::find(5)
+$ninja->save()
+
+protected $fillable = [ 'name', 'skill', 'bio' ];
+this prevents multi-assignment attacks.
+
+learned about Tinker
+= a playground for PHP inside the laravel environment.
+
+=> php artisan tinker
+If you were to use the Ninja Model, type:
+=> use App\Models\Ninja
+Create a record in the database:
+=> Ninja::create(['name' => 'mario', 'skill' => 75, 'bio'=>'athlethic plumber'])->toArray()
+
+note: we add ("   ->toArray()   ") to see the output value. our tinker version does not do this automatically.
+same with the command : Ninja::all()
+
+note: you need to make sure fillable in Models/Ninja.php is filled. otherwise, you wond be able to make the changes.
+
+Changes Made since Iformat:
+Migration
+Tinker
+created Ninja Model.
+added: Mario and Luigi to sqlite database: Ninja
