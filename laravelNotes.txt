@@ -1,17 +1,17 @@
 first install laravel then create a laravel project:
 
-laravel new ninja_network
+=> laravel new ninja_network
 
 
-Started learning Laravel by installing Herd
+=> Started learning Laravel by installing Herd
 Herd is like laragon. A platform for creating local laravel deployments.
 learned about the different folders inside a laravel project.
 in the laravel world,
-eloquent = mongoose.
+=> eloquent = mongoose.
 (ORM vs ODM)
-Learned about blade. blade is used by laravel to generate views.
+=> Learned about blade. blade is used by laravel to generate views.
 
-Started learning about routes.
+=> Started learning about routes.
 As you can tell Route in larvel is similar to express.js
 exept that return is equivalent to response.
 
@@ -123,3 +123,12 @@ learned how to create a directive to convert tailwind to plain CSS
 .card{
     @apply flex flex-col p-5 bg-gray-300 shadow-xl border border-gray-400;
 }
+
+learned that you can do components in larevel as you would with react.
+
+learned about migrations
+
+php artisan make:migration create_todos_table
+
+npx vite --host localhost --port 5173
+
