@@ -170,8 +170,10 @@ learned about Tinker
 = a playground for PHP inside the laravel environment.
 
 => php artisan tinker
+
 If you were to use the Ninja Model, type:
 => use App\Models\Ninja
+
 Create a record in the database:
 => Ninja::create(['name' => 'mario', 'skill' => 75, 'bio'=>'athlethic plumber'])->toArray()
 
@@ -185,3 +187,63 @@ Migration
 Tinker
 created Ninja Model.
 added: Mario and Luigi to sqlite database: Ninja
+
+Understood why we need to use ORM, 
+instead of writing: 
+SELECT * from ninjas we we use ORMs to represent the table then run commands for it. example, 
+Ninja::all() 
+
+this is also the case for mongoose.
+
+Started Learning about : Model Factories
+Factories are used to generate fake data.
+return [ name' => 'mario', 'bio' => 'athletic plumber', 'skill' => 75 ];
+this would make the value the same as the first data.
+
+return [
+            'name' => fake()->name(),
+            'bio' => fake()->realText(500),
+            'skill' => fake()->numberBetween(0, 100)
+        ];
+
+do this instead
+
+Ninja::factory()->count(50)->create()   <== This will create a 50 record of Ninja based on the parameters you gave to factory.
+
+DatabaseSeeder.php is the only seeder file that runs automatically on laravel startup.
+so, run your seeder file here.
+
+
+$this->call([
+NinjaSeeder::class,
+]);
+
+php artisan migrate:fresh --seed
+this drops all the tables in the database(clearing all the data)
+then runs migrate to all the migration files at once (creating fresh tables)
+--seed runs the databaseed.php then inside this file, we run the NinjaSeed which then creates all the dummy data again.
+
+this simplifies the process when we are making new changes to our records.
+
+MVC = Model, View, Controllers
+Models = the data model, the schema we've been using
+Views = how the user interacts with our website.
+controllers = api, how our site interacts with each other.
+
+php artisan make:controller NinjaController
+creates a controller file inside app/http/controllers
+
+This is like the controller JS that we typically use in express.js
+
+Learned about fetching users in the database 
+routes and controllers in laravel are very similar to express but laravel can generate a view also not only a response
+
+in controllers, import the model
+=> use App\Models\Ninja;
+
+then create an endpoint:
+example:
+public function index(){
+        $ninjas = Ninja::orderBy('id', 'asc')->get();
+         return view('ninjas.index',
+            ["ninjas" => $ninjas]);}
