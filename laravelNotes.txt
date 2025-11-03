@@ -188,6 +188,9 @@ Tinker
 created Ninja Model.
 added: Mario and Luigi to sqlite database: Ninja
 
+--------------------------------------------------
+Monday, 11/23/2025
+
 Understood why we need to use ORM, 
 instead of writing: 
 SELECT * from ninjas we we use ORMs to represent the table then run commands for it. example, 
@@ -247,3 +250,68 @@ public function index(){
         $ninjas = Ninja::orderBy('id', 'asc')->get();
          return view('ninjas.index',
             ["ninjas" => $ninjas]);}
+
+learned about the findOrFail function in eloquent: respond with the data or 404.
+public function show($id){
+        // route --> /ninjas/{$id}
+        // fetch a single record
+        $ninja = Ninja::findOrFail($id);
+        return view('ninjas.show', ["ninja" => $ninja]);
+    }
+
+Proper usage of components
+<x-card
+href="/ninjas/{{ $ninja->id }}"
+:highlight="$ninja->skill > 70"
+:name="$ninja->name"
+:skill="$ninja->skill"
+/>
+
+mapping through the object passed: show.blade.php -> <h2>Ninja ID: {{ $ninja -> id }}</h2>
+
+Learned about named routes in Laravel.
+First, create the name for the route. 
+Route::get('/ninjas', [NinjaController::class, 'index'])->name('ninjas.index');
+Then you can access the route like 
+<a href="{{ route('ninjas.index') }}">List of Ninjas</a>
+with wildcards:
+href="{{ route('ninjas.show', $ninja->id) }}"
+
+Making Bars:
+<div class="w-full bg-gray-400 h-2 rounded-lg overflow-hidden">
+    div class="bg-red-600 h-2 rounded-lg" style="width: {{$skill}}%;"></div>
+</div>
+
+Learned about Pagination: Pagination is when you have lots of data, you can separate the data in multiple pages. and when you move to page 1 only (10) is loaded then page 2 another 10 is loaded. (useful for performance)
+
+change the fetch to this.
+$ninjas = Ninja::orderBy('id', 'asc')->paginate(10);
+then, add this to the bottom of you UL
+{{ $ninjas->links()}}
+
+Created a new Model called Dojo.
+Learned about ForeignID. it is used to indicate the relationship of the value to the database.
+
+$table->foreignId("dojo_id")->constrained()->onDelete('cascade');
+constrained() means maintain the integrity of the relationship
+onDelete('cascade') means that if we delete a dojo, every ninja in that dojo will also be deleted since the dojo does not exist.
+
+Changes Made:
+11/03/25 (Monday)
+
+Accomplished Today:
+
+Upskilled in Laravel
+* Learned about Factories (a function to return dummy data)
+* Learned about Seeds (an automation for databases)
+* Learned about the importance of ORM (bridges code and database)
+	(sets of functions to simplify DB interactions).
+* Learned about database Models (Structure of the database) (Schema in Express)
+* Learned about controllers and routes in Laravel. (same as Express.js, but with blade views)
+* Learned about basic eloquent CRUD functions.
+* Started Laravel CRUD implementation of the previous Techmax project.
+* Learned about Naming Routes for easier modifications in the future.
+* Learned about Foreign Keys. To indicate relationship of a value to a data in another folder
+Stopped at #17 2:09
+--------------------------------------------------------
+
