@@ -423,3 +423,47 @@ Learned about receiving form errors and retaining their old value.
         <li class="my-1 text-red-500">{{ $error }}</li>
     @endforeach
 @endif
+
+CRUD learned!
+
+Learned Updating a Ninja via chatgpt
+
+STEP # 1
+Create 2 Routes, 2 Controllers,
+1 new page(update(submission)), 1 new button(edit)
+
+1.) Edit Page - For redirecting to the edit form.
+2.) Update Page - For the updated values submission.
+
+Route::post('/ninjas/{id}/edit', [NinjaController::class, 'edit'])->name('ninjas.edit');
+=> Controller
+public function edit($id){
+        // route --> /ninjas/{POST}
+        // handle POST request to store a new ninja record in the table.
+        $ninja = Ninja::findOrFail($id);
+        $dojos = Dojo::all();
+        return view('ninjas.edit', [
+            'ninja' => $ninja,
+            'dojos' => $dojos,
+        ]);
+}
+
+=> Controller
+Route::post('/ninjas/{id}/update', [NinjaController::class, 'update'])->name('ninjas.update');
+public function update(Request $request, $id){
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'skill' => 'required|integer|max:255|max:255',
+            'bio' => 'required|string|min:20|max:1000',
+            'dojo_id' => 'required|exists:dojos,id',
+        ]);
+        $ninja = Ninja::findOrFail($id);
+        $ninja->update($validated);
+        return redirect()->route('ninjas.index');
+}
+
+STEP # 2
+create the edit.blade.php using the create a ninja template but pre-filled with the values of the passed ninja value.
+
+
+
