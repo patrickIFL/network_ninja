@@ -314,4 +314,112 @@ Upskilled in Laravel
 * Learned about Foreign Keys. To indicate relationship of a value to a data in another folder
 Stopped at #17 2:09
 --------------------------------------------------------
+11/4/2025 (Tuesday)
+In Laravel by default, PHP always load different files. but you can make it an SPA like express does.
+Route::get('/api/ninjas', function () {
+    return [
+        ['name' => 'Naruto'],
+        ['name' => 'Sasuke'],
+        ['name' => 'Kakashi']
+    ];
+});
 
+That is why in the previous tutorials, 
+$ninja = Ninja::findOrFail($id);
+        return view('ninjas.show', ["ninja" => $ninja]);
+We are actually returning 2 values. the response and a page.
+
+
+We need to define the relationship of the two data.
+a Ninja belongs to the dojo, then the Dojo has many Ninjas.
+In the Ninja Model
+public function dojo(){
+        return $this->belongsTo(Dojo::class);
+}
+In the Dojo Model
+public function ninjas(){
+        return $this->hasMany(Ninja::class);
+}
+
+because you did this, you can populate the data of the dojo reference in the ninja.
+Like this :
+<x-card :dojo="$ninja->dojo->name" />
+<x-card> {{ $ninja->dojo->name }} </x-card>
+
+$users = User::all(); // Fetches all users
+
+
+Learned about the difference between Lazy loading and Eager loading:
+Lazy Loading:
+🔍 What happens in SQL:
+SELECT * FROM users;
+For each user:
+SELECT * FROM posts WHERE user_id = ?;
+If you have 100 users → that’s 101 SQL queries 😱
+This is called the N+1 problem.
+
+foreach ($users as $user) {
+    echo $user->posts; // This triggers a NEW query for each user 😩
+}
+
+Eager Loading:
+🔍 What happens in SQL:
+SELECT * FROM users;
+SELECT * FROM posts WHERE user_id IN (1, 2, 3, ...);
+✅ Only 2 queries total, even if there are 100 users.
+
+$users = User::with('posts')->get(); // 👈 Eager load posts
+foreach ($users as $user) {
+    echo $user->posts; // No new queries — already loaded 🎉
+}
+
+In lazy loading you can see that in the index() controller, you fetched all the users. then you fetched for each user the dojo record. meaning, you fetched a total of 101 times (1 for all users + 100 iterations)
+
+created the create ninja component:
+Form with input boxes and a select.
+fetched all() the list of dojos then passed it to the create view to be accessed and be looped by the select component.
+
+Learnings Today:
+-> Lazy Loading vs Eager Loading
+-> returning a response only then using the data in a JS inside a blade.
+-> Creating an object reference in a database using the foreign ID.
+
+when creating a form, add this: 
+@csrf
+as the first part inside your form for cross site attacks defense.
+
+Began to handle a POST request
+the action for the form will be the api endpoint address the onSubmit button should call.
+Like this:
+<form
+    action="{{ route("ninjas.store") }}"
+    method="POST"
+>
+
+then in the post request controller, we get access to a parameter called, Request
+Like this:
+
+public function store(Request $request){
+        // route --> /ninjas/{POST}
+        // validate the values received from the client
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'skill' => 'required|integer|max:255|max:255',
+            'bio' => 'required|string|min:20|max:1000',
+            'dojo_id' => 'required|exists:dojos,id',
+        ]);
+
+        Ninja::create($validated);
+        return redirect()->route('ninjas.index');
+    }
+
+Learned about inset shadows in tailwind
+shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]
+
+Learned about receiving form errors and retaining their old value.
+
+@if($errors->any())
+    @foreach ($errors->all() as $error)
+        <li class="my-1 text-red-500">{{ $error }}</li>
+    @endforeach
+@endif
