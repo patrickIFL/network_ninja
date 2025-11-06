@@ -465,5 +465,14 @@ public function update(Request $request, $id){
 STEP # 2
 create the edit.blade.php using the create a ninja template but pre-filled with the values of the passed ninja value.
 
+finished the techmax blade task.
+
+learned how to integreate react with laravel. when you initialize it, it is automatically connected. you just need to edit the welcome.tsx file inside resources/js/pages/welcome.tsx
+after editting, you can unify your app by building it. like how you would do it in makin the react plugin.
+
+note: Also learned how to deal with the hashing values of the build file. see the vite config for more info.
+
+also, php artisan serve will not work if your site is being served inside laragon. make an .env to place the hostname there and it will be the address of your api requests.
+
 
 
